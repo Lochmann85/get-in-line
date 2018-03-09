@@ -1,0 +1,6 @@
+{,**/}*.spec.js
+--require babel-core/register
+--require ./test/common.js
+--recursive
+--bail
+--exit
