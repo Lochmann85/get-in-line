@@ -1,4 +1,4 @@
-{,**/}*.spec.js
+lib/**/*.spec.js
 --require babel-core/register
 --require ./test/common.js
 --recursive
