@@ -14,20 +14,21 @@ const handleExecutionResult = (executionOutput, resolve) => {
 
 const execute = ({ stepExecution, timeInterval, timeoutHandler }) => function () {
    return new Promise((resolve, reject) => {
-      if (stepExecution.then instanceof Function) {
-         timeoutHandler(() => {
-            stepExecution
-               .then(output => handleExecutionResult(output, resolve))
-               .catch(reject);
-         }, timeInterval);
-      }
-      else {
-         reject(new Error("the timestep did not get a Promise"));
-      }
+      timeoutHandler(() => {
+         stepExecution
+            .then(output => handleExecutionResult(output, resolve))
+            .catch(reject);
+      }, timeInterval);
    });
 };
 
 const create = (privateParameters) => {
+   const { stepExecution } = privateParameters;
+
+   if (!(stepExecution.then instanceof Function)) {
+      throw new Error("the timestep did not get a promise for step execution");
+   }
+
    if (!privateParameters.timeoutHandler) {
       privateParameters.timeoutHandler = setTimeout;
    }

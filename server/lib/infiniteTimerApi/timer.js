@@ -10,8 +10,8 @@ const start = ({ timestep }) => function () {
    });
 };
 
-const create = ({ timestep }) => Object.freeze({
-   start: start({ timestep })
+const create = (privateParameters) => Object.freeze({
+   start: start(privateParameters)
 });
 
 export {

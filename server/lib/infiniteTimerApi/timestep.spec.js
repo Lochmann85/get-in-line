@@ -22,6 +22,18 @@ describe("infinite timer timestemp", () => {
          .catch(done);
    });
 
+   it("should throw error when timestep input is not a promise", (done) => {
+      try {
+         timestep.create({
+            stepExecution: () => "error",
+            timeInterval
+         });
+      }
+      catch (error) {
+         done();
+      }
+   });
+
    it("should make a timestep and reject if the promise is rejected", (done) => {
       const expectedOutput = "promise is rejected with error",
          mockedPromise = {
@@ -37,21 +49,6 @@ describe("infinite timer timestemp", () => {
          .then(output => done("Should not come here because the promise is rejected"))
          .catch(error => {
             error.should.equal(expectedOutput);
-            done();
-         });
-   });
-
-   it("should reject with error when timestep input is not a promise", (done) => {
-      const expectedOutput = "function is not possible";
-
-      const singleTimestep = timestep.create({
-         stepExecution: () => expectedOutput,
-         timeInterval
-      });
-
-      singleTimestep.execute()
-         .then(output => done("Should not come here because a function is given"))
-         .catch(error => {
             done();
          });
    });
