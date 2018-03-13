@@ -1,8 +1,7 @@
-import { googleNews } from './financeApi/finance';
 import * as infiniteTimer from './infiniteTimerApi';
 
 const timestep = infiniteTimer.createTimestep({
-   stepExecution: googleNews,
+   stepExecution: Promise.resolve(true),
    timeInterval: 5000
 });
 

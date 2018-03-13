@@ -1,5 +1,5 @@
 
-const start = ({ timestep }) => function () {
+const start = (timestep) => function () {
    return timestep.execute().then(({ shouldContinue, result }) => {
       if (shouldContinue) {
          return this.start();
@@ -10,8 +10,8 @@ const start = ({ timestep }) => function () {
    });
 };
 
-const create = (privateParameters) => Object.freeze({
-   start: start(privateParameters)
+const create = ({ timestep }) => Object.freeze({
+   start: start(timestep)
 });
 
 export {
