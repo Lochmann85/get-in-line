@@ -4,7 +4,7 @@ describe("finance data wrapper", () => {
 
    it("should fetch data object through a given promise", (done) => {
       const expectedOutput = { data: "test finance data" },
-         mockedFinanceDataFetcher = Promise.resolve(expectedOutput),
+         mockedFinanceDataFetcher = (output) => Promise.resolve(output),
          responseCreator = (response) => ({ news: response.data });
 
       const wrapper = financeDataWrapper.create({
@@ -12,7 +12,7 @@ describe("finance data wrapper", () => {
          filter: (response) => responseCreator(response)
       });
 
-      wrapper.fetch()
+      wrapper.fetch(expectedOutput)
          .then(financeData => {
             financeData.should.deep.equal(responseCreator(expectedOutput));
             done();
@@ -20,11 +20,29 @@ describe("finance data wrapper", () => {
          .catch(done);
    });
 
-   it("should throw error when no promise is set for finance data fetcher", (done) => {
+   it("should reject data fetching when finance data fetcher does not return a promise", (done) => {
+      const expectedOutput = { data: "test finance data" },
+         mockedFinanceDataFetcher = (output) => output;
+
+      const wrapper = financeDataWrapper.create({
+         financeDataFetcher: mockedFinanceDataFetcher,
+         filter: (response) => response
+      });
+
+      wrapper.fetch(expectedOutput)
+         .then(financeData => {
+            done("Should not come here because fetch has error");
+         })
+         .catch(error => done());
+   });
+
+   it("should throw error when no function is set for finance data fetcher", (done) => {
       try {
          financeDataWrapper.create({
-            financeDataFetcher: (callback) => callback("error")
+            financeDataFetcher: { error: "error" },
+            filter: () => { }
          });
+         done("Should not come here because no function is given");
       } catch (error) {
          done();
       }
@@ -33,7 +51,7 @@ describe("finance data wrapper", () => {
    it("should throw error when no function is set for finance filter", (done) => {
       try {
          financeDataWrapper.create({
-            financeDataFetcher: Promise.resolve(true),
+            financeDataFetcher: () => Promise.resolve(true),
             filter: undefined
          });
       } catch (error) {

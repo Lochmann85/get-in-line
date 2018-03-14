@@ -2,15 +2,15 @@ import googleFinance from 'google-finance';
 
 import * as financeDataWrapper from './../financeDataWrapper';
 
-const googleNewsFetcher = (company) => {
-   const googleNews = googleFinance.companyNews({
+const googleNewsFetcher = ({ responseProperty }) => {
+   const googleNews = (company) => googleFinance.companyNews({
       symbol: company.googleSymbol,
       page_size: 3 // eslint-disable-line camelcase
    });
 
    return financeDataWrapper.create({
       financeDataFetcher: googleNews,
-      filter: (response) => ({ news: response })
+      filter: (response) => ({ [responseProperty]: response })
    });
 };
 

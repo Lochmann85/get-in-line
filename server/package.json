@@ -6,9 +6,9 @@
    "scripts": {
       "start": "nodemon ./lib/service.js --exec babel-node",
       "test": "mocha -w",
-      "cover": "istanbul cover --config test/istanbul.yml _mocha -- --opts test/mocha.opts",
+      "cover": "istanbul cover --config test/istanbul.yml _mocha -- --opts test/cover.opts",
       "lint": "eslint .",
-      "build": "babel -d ./build ./lib",
+      "build": "babel -d ./build ./lib --ignore '**/*.spec.js'",
       "debug": "node --inspect build/service.js"
    },
    "eslintConfig": {
