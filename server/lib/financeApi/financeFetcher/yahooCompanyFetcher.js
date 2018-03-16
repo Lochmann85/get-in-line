@@ -1,10 +1,16 @@
 import yahooFinance from 'yahoo-finance';
 
-import * as financeDataWrapper from './../financeDataWrapper';
+import canFetchFinanceData from './../canFetchFinanceData';
+import { defaultNameResponse } from './../responseNamer';
 
-const yahooCompanyFetcher = ({ responseProperty }) => {
+const yahooCompanyFetcher = ({ responseProperty, yahooFinanceApi }) => {
+   let _yahooFinanceApi = yahooFinanceApi;
+   if (!_yahooFinanceApi) {
+      _yahooFinanceApi = yahooFinance;
+   }
+
    const yahooCompany = (company) => new Promise((resolve, reject) => {
-      yahooFinance.quote({
+      _yahooFinanceApi.quote({
          symbol: company.yahooSymbol,
          modules: ["summaryDetail", "defaultKeyStatistics"]
       }, function (error, quotes) {
@@ -17,20 +23,19 @@ const yahooCompanyFetcher = ({ responseProperty }) => {
       });
    });
 
-   return financeDataWrapper.create({
+   return Object.assign({}, canFetchFinanceData({
       financeDataFetcher: yahooCompany,
       filter: (response) => ({
-         [responseProperty]: {
-            lastDividendRate: response.summaryDetail.dividendRate,
-            lastDividendYield: response.summaryDetail.dividendYield,
-            lastDividendDate: response.summaryDetail.exDividendDate,
-            fiveYearAvgDividendYield: response.summaryDetail.fiveYearAvgDividendYield,
-            trailingPriceToEarnings: response.summaryDetail.trailingPE,
-            trailingEarningsPerShare: response.defaultKeyStatistics.trailingEps,
-            currency: response.summaryDetail.currency
-         }
-      })
-   });
+         lastDividendRate: response.summaryDetail.dividendRate,
+         lastDividendYield: response.summaryDetail.dividendYield,
+         lastDividendDate: response.summaryDetail.exDividendDate,
+         fiveYearAvgDividendYield: response.summaryDetail.fiveYearAvgDividendYield,
+         trailingPriceToEarnings: response.summaryDetail.trailingPE,
+         trailingEarningsPerShare: response.defaultKeyStatistics.trailingEps,
+         currency: response.summaryDetail.currency
+      }),
+      responseNamer: defaultNameResponse(responseProperty)
+   }));
 };
 
 export default yahooCompanyFetcher;

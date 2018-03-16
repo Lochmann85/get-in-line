@@ -1,17 +1,21 @@
 import googleFinance from 'google-finance';
 
-import * as financeDataWrapper from './../financeDataWrapper';
+import canFetchFinanceData from './../canFetchFinanceData';
+import { defaultNameResponse } from './../responseNamer';
+import { defaultFilter } from './../filter';
 
 const googleNewsFetcher = ({ responseProperty }) => {
    const googleNews = (company) => googleFinance.companyNews({
       symbol: company.googleSymbol,
-      page_size: 3 // eslint-disable-line camelcase
+      page_size: 3, // eslint-disable-line camelcase
+      error: true
    });
 
-   return financeDataWrapper.create({
+   return Object.assign({}, canFetchFinanceData({
       financeDataFetcher: googleNews,
-      filter: (response) => ({ [responseProperty]: response })
-   });
+      filter: defaultFilter,
+      responseNamer: defaultNameResponse(responseProperty)
+   }));
 };
 
 export default googleNewsFetcher;

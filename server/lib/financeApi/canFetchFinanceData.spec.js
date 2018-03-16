@@ -1,20 +1,24 @@
-import * as financeDataWrapper from './financeDataWrapper';
+import canFetchFinanceData from './canFetchFinanceData';
+
+import { defaultNameResponse } from './responseNamer';
+import { defaultFilter } from './filter';
 
 describe("finance data wrapper", () => {
 
    it("should fetch data object through a given promise", (done) => {
       const expectedOutput = { data: "test finance data" },
          mockedFinanceDataFetcher = (output) => Promise.resolve(output),
-         responseCreator = (response) => ({ news: response.data });
+         responseCreator = (response) => ({ news: response });
 
-      const wrapper = financeDataWrapper.create({
+      const wrapper = canFetchFinanceData({
          financeDataFetcher: mockedFinanceDataFetcher,
-         filter: (response) => responseCreator(response)
+         filter: (response) => response.data,
+         responseNamer: responseCreator
       });
 
       wrapper.fetch(expectedOutput)
          .then(financeData => {
-            financeData.should.deep.equal(responseCreator(expectedOutput));
+            financeData.should.deep.equal(responseCreator(expectedOutput.data));
             done();
          })
          .catch(done);
@@ -24,9 +28,10 @@ describe("finance data wrapper", () => {
       const expectedOutput = { data: "test finance data" },
          mockedFinanceDataFetcher = (output) => output;
 
-      const wrapper = financeDataWrapper.create({
+      const wrapper = canFetchFinanceData({
          financeDataFetcher: mockedFinanceDataFetcher,
-         filter: (response) => response
+         filter: defaultFilter,
+         responseNamer: defaultNameResponse("test")
       });
 
       wrapper.fetch(expectedOutput)
@@ -38,9 +43,10 @@ describe("finance data wrapper", () => {
 
    it("should throw error when no function is set for finance data fetcher", (done) => {
       try {
-         financeDataWrapper.create({
+         canFetchFinanceData({
             financeDataFetcher: { error: "error" },
-            filter: () => { }
+            filter: defaultFilter,
+            responseNamer: defaultNameResponse("test")
          });
          done("Should not come here because no function is given");
       } catch (error) {
@@ -50,9 +56,22 @@ describe("finance data wrapper", () => {
 
    it("should throw error when no function is set for finance filter", (done) => {
       try {
-         financeDataWrapper.create({
+         canFetchFinanceData({
             financeDataFetcher: () => Promise.resolve(true),
-            filter: undefined
+            filter: undefined,
+            responseNamer: defaultNameResponse("test")
+         });
+      } catch (error) {
+         done();
+      }
+   });
+
+   it("should throw error when no function is set for response namer", (done) => {
+      try {
+         canFetchFinanceData({
+            financeDataFetcher: () => Promise.resolve(true),
+            filter: defaultFilter,
+            responseNamer: "error"
          });
       } catch (error) {
          done();
