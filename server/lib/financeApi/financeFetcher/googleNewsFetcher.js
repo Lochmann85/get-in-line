@@ -14,7 +14,7 @@ const googleNewsFetcher = ({ responseProperty }) => {
    return Object.assign({}, canFetchFinanceData({
       financeDataFetcher: googleNews,
       filter: defaultFilter,
-      responseNamer: defaultNameResponse(responseProperty)
+      nameResponse: defaultNameResponse(responseProperty)
    }));
 };
 

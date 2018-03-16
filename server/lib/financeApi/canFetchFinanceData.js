@@ -1,5 +1,5 @@
 
-const fetch = (financeDataFetcher, filter, responseNamer) => function (company) {
+const fetch = (financeDataFetcher, filter, nameResponse) => function (company) {
    const fetchPromise = financeDataFetcher(company);
 
    if (!(fetchPromise.then instanceof Function)) {
@@ -8,23 +8,23 @@ const fetch = (financeDataFetcher, filter, responseNamer) => function (company) 
 
    return fetchPromise
       .then(response => {
-         return responseNamer(filter(response));
+         return nameResponse(filter(response));
       });
 };
 
-const canFetchFinanceData = ({ financeDataFetcher, filter, responseNamer }) => {
+const canFetchFinanceData = ({ financeDataFetcher, filter, nameResponse }) => {
    if (!(financeDataFetcher instanceof Function)) {
       throw new Error("the finance data wrapper needs a function as finance data fetcher.");
    }
    if (!(filter instanceof Function)) {
       throw new Error("the finance data wrapper needs a function as filter.");
    }
-   if (!(responseNamer instanceof Function)) {
-      throw new Error("the finance data wrapper needs a function as responseNamer.");
+   if (!(nameResponse instanceof Function)) {
+      throw new Error("the finance data wrapper needs a function as nameResponse.");
    }
 
    return Object.freeze({
-      fetch: fetch(financeDataFetcher, filter, responseNamer)
+      fetch: fetch(financeDataFetcher, filter, nameResponse)
    });
 };
 

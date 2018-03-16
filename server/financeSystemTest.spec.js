@@ -100,7 +100,7 @@ describe("finance system test", () => {
       const yahooDividendFetcher = canFetchFinanceData({
          financeDataFetcher: yahooDividend,
          filter: defaultFilter,
-         responseNamer: defaultNameResponse(expectedName)
+         nameResponse: defaultNameResponse(expectedName)
       });
 
       yahooDividendFetcher.fetch(mockedCompany)
@@ -125,7 +125,7 @@ describe("finance system test", () => {
       const googlePriceFetcher = canFetchFinanceData({
          financeDataFetcher: googlePrice,
          filter: (response) => (response.data),
-         responseNamer: defaultNameResponse(expectedName)
+         nameResponse: defaultNameResponse(expectedName)
       });
 
       googlePriceFetcher.fetch(mockedCompany)

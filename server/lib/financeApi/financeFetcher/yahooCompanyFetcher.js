@@ -34,7 +34,7 @@ const yahooCompanyFetcher = ({ responseProperty, yahooFinanceApi }) => {
          trailingEarningsPerShare: response.defaultKeyStatistics.trailingEps,
          currency: response.summaryDetail.currency
       }),
-      responseNamer: defaultNameResponse(responseProperty)
+      nameResponse: defaultNameResponse(responseProperty)
    }));
 };
 

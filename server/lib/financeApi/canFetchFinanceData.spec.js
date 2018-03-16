@@ -13,7 +13,7 @@ describe("finance data wrapper", () => {
       const wrapper = canFetchFinanceData({
          financeDataFetcher: mockedFinanceDataFetcher,
          filter: (response) => response.data,
-         responseNamer: responseCreator
+         nameResponse: responseCreator
       });
 
       wrapper.fetch(expectedOutput)
@@ -31,7 +31,7 @@ describe("finance data wrapper", () => {
       const wrapper = canFetchFinanceData({
          financeDataFetcher: mockedFinanceDataFetcher,
          filter: defaultFilter,
-         responseNamer: defaultNameResponse("test")
+         nameResponse: defaultNameResponse("test")
       });
 
       wrapper.fetch(expectedOutput)
@@ -46,7 +46,7 @@ describe("finance data wrapper", () => {
          canFetchFinanceData({
             financeDataFetcher: { error: "error" },
             filter: defaultFilter,
-            responseNamer: defaultNameResponse("test")
+            nameResponse: defaultNameResponse("test")
          });
          done("Should not come here because no function is given");
       } catch (error) {
@@ -59,7 +59,7 @@ describe("finance data wrapper", () => {
          canFetchFinanceData({
             financeDataFetcher: () => Promise.resolve(true),
             filter: undefined,
-            responseNamer: defaultNameResponse("test")
+            nameResponse: defaultNameResponse("test")
          });
       } catch (error) {
          done();
@@ -71,7 +71,7 @@ describe("finance data wrapper", () => {
          canFetchFinanceData({
             financeDataFetcher: () => Promise.resolve(true),
             filter: defaultFilter,
-            responseNamer: "error"
+            nameResponse: "error"
          });
       } catch (error) {
          done();
