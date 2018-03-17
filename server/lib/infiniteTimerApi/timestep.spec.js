@@ -13,11 +13,25 @@ describe("infinite timer timestemp", () => {
       });
 
       singleTimestep.execute()
-         .then(output => {
-            output.should.equal(expectedOutput);
+         .then(({ shouldContinue, result }) => {
+            result.should.equal(expectedOutput);
+            shouldContinue.should.be.true; // eslint-disable-line no-unused-expressions
+
             done();
          })
          .catch(done);
+   });
+
+   it("should throw error when timestep input is not a promise", (done) => {
+      try {
+         timestep.create({
+            stepExecution: () => "error",
+            timeInterval
+         });
+      }
+      catch (error) {
+         done();
+      }
    });
 
    it("should make a timestep and reject if the promise is rejected", (done) => {
@@ -39,27 +53,15 @@ describe("infinite timer timestemp", () => {
          });
    });
 
-   it("should reject with error when timestep input is not a promise", (done) => {
-      const expectedOutput = "function is not possible";
-
-      const singleTimestep = timestep.create({
-         stepExecution: () => expectedOutput,
-         timeInterval
-      });
-
-      singleTimestep.execute()
-         .then(output => done("Should not come here because a function is given"))
-         .catch(error => {
-            done();
-         });
-   });
-
    it("should wait for a given time before executing the step", (done) => {
       const expectedTimeInterval = 3000,
          expectedOutput = "promise is resolved after a certain time";
 
       const singleTimestep = timestep.create({
-         stepExecution: Promise.resolve(expectedOutput),
+         stepExecution: Promise.resolve({
+            shouldContinue: false,
+            result: expectedOutput
+         }),
          timeInterval: expectedTimeInterval,
          timeoutHandler: (callback, timeInterval) => {
             timeInterval.should.equal(expectedTimeInterval);
@@ -69,8 +71,10 @@ describe("infinite timer timestemp", () => {
       });
 
       singleTimestep.execute()
-         .then(output => {
-            output.should.equal(expectedOutput);
+         .then(({ shouldContinue, result }) => {
+            result.should.equal(expectedOutput);
+            shouldContinue.should.be.false; // eslint-disable-line no-unused-expressions
+
             done();
          })
          .catch(done);

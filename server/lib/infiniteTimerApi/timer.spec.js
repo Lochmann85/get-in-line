@@ -1,4 +1,4 @@
-import * as infiniteTimer from './infiniteTimer';
+import * as infiniteTimer from './timer';
 
 describe("infinite timer", () => {
 
@@ -24,11 +24,15 @@ describe("infinite timer", () => {
             ++timestepExecutions;
 
             if (timestepExecutions === 2) {
-               done();
-               return Promise.reject(null);
+               return Promise.resolve({
+                  result: timestepExecutions,
+                  shouldContinue: false
+               });
             }
             else {
-               return Promise.resolve();
+               return Promise.resolve({
+                  shouldContinue: true
+               });
             }
          }
       };
@@ -38,12 +42,10 @@ describe("infinite timer", () => {
       });
 
       timer.start()
-         .then(() => done("should not come here, because done is called in the mocked timestep"))
-         .catch(error => {
-            // added null as reject inside mocked timestep to stop timer
-            if (error) {
-               done(error);
-            }
-         });
+         .then(result => {
+            result.should.equal(2);
+            done();
+         })
+         .catch(done);
    });
 });

@@ -1,20 +1,12 @@
-import googleFinance from 'google-finance';
-import moment from 'moment';
+import * as infiniteTimer from './infiniteTimerApi';
 
-const today = moment().endOf('day');
-const weekEarlier = moment(today).subtract(1, 'weeks');
-
-googleFinance.historical({
-   symbol: "VIE:POST",
-   from: weekEarlier.toDate(),
-   to: today.toDate()
-}).then(data => {
-   console.log(data);
+const timestep = infiniteTimer.createTimestep({
+   stepExecution: Promise.resolve(true),
+   timeInterval: 5000
 });
 
-googleFinance.companyNews({
-   symbol: "VIE:POST",
-   page_size: 3
-}).then(news => {
-   console.log(news)
+const timer = infiniteTimer.createTimer({
+   timestep
 });
+
+timer.start();

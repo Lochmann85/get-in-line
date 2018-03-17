@@ -1,4 +1,4 @@
-lib/**/*.spec.js
+./{,!(node_modules)/**}/*.spec.js
 --require babel-core/register
 --require ./test/common.js
 --recursive
