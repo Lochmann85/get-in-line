@@ -5,7 +5,7 @@ const FullHeightWrapper = styled.div`
 `;
 
 const WrapperWithOffset = styled(FullHeightWrapper) `
-padding:4% 0;
+   padding:4% 0;
 `;
 
 const HiddenWrapper = styled.div`

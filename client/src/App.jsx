@@ -12,10 +12,10 @@ const App = (props) => {
    return (
       <React.Fragment>
          <Navigation />
-         <Grid container>
+         <Grid doubling>
             <Grid.Row>
-               <Grid.Column only="tablet" tablet={1} computer={1} largeScreen={2} widescreen={2} />
-               <Grid.Column mobile={16} tablet={14} computer={14} largeScreen={12} widescreen={12}>
+               <Grid.Column only="computer" computer={1} largeScreen={1} widescreen={1} />
+               <Grid.Column mobile={16} tablet={16} computer={14} largeScreen={14} widescreen={14}>
                   <Routes />
                </Grid.Column>
             </Grid.Row>

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Grid, Menu, Image } from 'semantic-ui-react';
 
 import { BasicFlexWrapper } from './../../assets/styled/Wrapper';
+import { FullWidthGrid } from './../../assets/styled/UI';
 import logo from './../../assets/images/shout-out-loud-logo.svg';
 import colors from './../../assets/colors/get-in-line-colors.json';
 
@@ -19,14 +20,14 @@ const StyledMenu = styled(Menu) `
    margin: 0!important;
 `;
 
-const LargeScreensMenuGroup = styled(Grid) `
+const LargeScreensMenuGroup = styled(FullWidthGrid) `
    @media only screen and (max-width: 389px) {
       display: none!important;
    };
 `;
 
 const HeaderItem = styled(Menu.Item) `
-   @media only screen and (min-width: 390px) {
+   @media only screen and (min-width: 992px) {
       padding-left: 0!important;
    };
    margin-left: 0!important;
@@ -78,10 +79,10 @@ class Navigation extends React.Component {
       return (
          <NavigationWrapper>
             <StyledMenu secondary>
-               <LargeScreensMenuGroup container>
+               <LargeScreensMenuGroup>
                   <Grid.Row>
-                     <Grid.Column only="tablet" tablet={1} computer={1} largeScreen={2} widescreen={2} />
-                     <Grid.Column mobile={8} tablet={9} computer={10} largeScreen={8} widescreen={8}>
+                     <Grid.Column only="computer" computer={1} largeScreen={1} widescreen={1} />
+                     <Grid.Column mobile={8} tablet={9} computer={10} largeScreen={11} widescreen={11}>
                         <HeaderItem header>
                            <Link to="/">
                               {logoItem}
@@ -90,7 +91,7 @@ class Navigation extends React.Component {
                            </Link>
                         </HeaderItem>
                      </Grid.Column>
-                     <Grid.Column mobile={8} tablet={5} computer={4} largeScreen={4} widescreen={4}>
+                     <Grid.Column mobile={8} tablet={7} computer={4} largeScreen={3} widescreen={3}>
                         {controlMenuItem}
                      </Grid.Column>
                   </Grid.Row>

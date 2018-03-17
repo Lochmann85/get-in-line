@@ -39,7 +39,7 @@ class ControlCenter extends React.Component {
             <ColoredDrowdownMenu>
                <ViewerInfo />
                <StyledDropdownHeader content={"Action"} />
-               <Dropdown.Item onClick={alert("logout")} content={<ColoredSpan>Logout</ColoredSpan>} />
+               <Dropdown.Item onClick={() => alert("logout")} content={<ColoredSpan>Logout</ColoredSpan>} />
             </ColoredDrowdownMenu>
          </FullHeightDrowdown>
       );

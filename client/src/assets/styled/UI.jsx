@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Message, Segment, Icon, Form } from 'semantic-ui-react';
+import { Message, Segment, Icon, Form, Grid } from 'semantic-ui-react';
 
 import colors from './../colors/get-in-line-colors.json';
 
@@ -26,9 +26,13 @@ const ColoredFormField = styled(Form.Field) `
 `;
 
 const BaseIcon = styled(Icon) `
-line-height: 1;
-vertical-align: middle;
-font-size: 1.5em!important;
+   line-height: 1;
+   vertical-align: middle;
+   font-size: 1.5em!important;
+`;
+
+const FullWidthGrid = styled(Grid) `
+   width:100%!important;
 `;
 
 export {
@@ -36,4 +40,5 @@ export {
    SegmentBackground,
    ColoredFormField,
    BaseIcon,
+   FullWidthGrid
 };
