@@ -13,7 +13,7 @@ const yahooCompanyFetcher = ({ responseProperty, yahooFinanceApi }) => {
       _yahooFinanceApi.quote({
          symbol: company.yahooSymbol,
          modules: ["summaryDetail", "defaultKeyStatistics"]
-      }, function (error, quotes) {
+      }, (error, quotes) => {
          if (!error) {
             resolve(quotes);
          }
