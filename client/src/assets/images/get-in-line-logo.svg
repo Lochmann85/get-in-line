@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    viewBox="0 0 50 50"
-   sodipodi:docname="shout-out-loud-logo.svg"
+   sodipodi:docname="get-in-line-logo.svg"
    inkscape:export-filename="/home/georg/Dokumente/shout-out-loud-logo48.png"
    inkscape:export-xdpi="86.400002"
    inkscape:export-ydpi="86.400002">
@@ -53,8 +53,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="7"
-     inkscape:cx="-0.071428571"
-     inkscape:cy="29.142857"
+     inkscape:cx="-33.142857"
+     inkscape:cy="28.857143"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -101,32 +101,9 @@
        inkscape:label="#background"
        transform="matrix(0,-1,1,0,0,0)" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#5f5f5f;stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 19.512307,8.1228584 c -4.649266,0.8790959 -4.437083,3.8271846 -4.462978,6.0356356 -0.07034,5.999214 -2.634492,8.553715 -5.121157,8.926762"
-       id="path5993"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="csc"
-       inkscape:label="#{up" />
-    <path
-       inkscape:label="#{up"
-       sodipodi:nodetypes="csc"
-       inkscape:connector-curvature="0"
-       id="path6031"
-       d="M 19.512307,38.084197 C 14.863041,37.205101 15.075224,34.257013 15.049329,32.048562 14.978989,26.049348 12.414837,23.494847 9.928172,23.1218"
-       style="fill:none;fill-rule:evenodd;stroke:#5f5f5f;stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#5f5f5f;stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 26.75542,14.333446 c 8.056769,8.610357 -0.197281,17.674373 -0.197281,17.564325"
-       id="path6059"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc"
-       inkscape:label="#shout1" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#5f5f5f;stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 34.388905,8.581969 C 47.541462,23.255947 34.1002,38.074981 34.1002,37.891346"
-       id="path6060"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc"
-       inkscape:label="#shout2" />
+       style="fill:none;fill-rule:evenodd;stroke:#5f5f5f;stroke-width:5;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 10,38.142857 c 0,0 0,0 9.714286,-20.142857 L 29.571429,27.857143 39.857143,8"
+       id="path4145"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

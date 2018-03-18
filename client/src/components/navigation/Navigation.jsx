@@ -6,7 +6,7 @@ import { Grid, Menu, Image } from 'semantic-ui-react';
 
 import { BasicFlexWrapper } from './../../assets/styled/Wrapper';
 import { FullWidthGrid } from './../../assets/styled/UI';
-import logo from './../../assets/images/shout-out-loud-logo.svg';
+import logo from './../../assets/images/get-in-line-logo.svg';
 import colors from './../../assets/colors/get-in-line-colors.json';
 
 import MainMenu from './components/MainMenu';
