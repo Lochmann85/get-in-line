@@ -1,12 +1,11 @@
-import * as infiniteTimer from './infiniteTimerApi';
+/**
+ * @module service
+ * loads the configuration and starts the server
+ * initial entry point for app
+ */
 
-const timestep = infiniteTimer.createTimestep({
-   stepExecution: Promise.resolve(true),
-   timeInterval: 5000
-});
+import * as server from './serverInitialisation/server';
 
-const timer = infiniteTimer.createTimer({
-   timestep
-});
-
-timer.start();
+server.initialise({})
+   .then(() => { })
+   .catch(error => console.log(error));
