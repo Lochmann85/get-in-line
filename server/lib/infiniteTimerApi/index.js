@@ -1,2 +1,7 @@
-export { create as createTimer } from './timer';
-export { create as createTimestep } from './timestep';
+import * as timerFactory from './timer';
+import * as timestepFactory from './timestep';
+
+export {
+   timerFactory,
+   timestepFactory
+};

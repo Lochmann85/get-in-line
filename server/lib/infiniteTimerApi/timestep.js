@@ -1,5 +1,6 @@
+import propOrDefault from './../helper/propOrDefault';
 
-const handleExecutionResult = (executionOutput, resolve) => {
+const _handleExecutionResult = function (executionOutput, resolve) {
    if (executionOutput.hasOwnProperty("result") &&
       executionOutput.hasOwnProperty("shouldContinue")) {
       resolve(executionOutput);
@@ -12,28 +13,24 @@ const handleExecutionResult = (executionOutput, resolve) => {
    }
 };
 
-const execute = (stepExecution, timeInterval, timeoutHandler) => function () {
-   return new Promise((resolve, reject) => {
-      timeoutHandler(() => {
-         stepExecution
-            .then(executionOutput => handleExecutionResult(executionOutput, resolve))
-            .catch(reject);
-      }, timeInterval);
-   });
-};
-
-const create = ({ stepExecution, timeInterval, timeoutHandler }) => {
-   if (!(stepExecution.then instanceof Function)) {
+const create = (properties) => {
+   const _stepExecution = propOrDefault(properties, "stepExecution", null);
+   if (!(_stepExecution.then instanceof Function)) {
       throw new Error("the timestep did not get a promise for step execution");
    }
-
-   let _timeoutHandler = timeoutHandler;
-   if (!_timeoutHandler) {
-      _timeoutHandler = setTimeout;
-   }
+   const _timeInterval = propOrDefault(properties, "timeInterval", null);
+   const _timeoutHandler = propOrDefault(properties, "timeoutHandler", setTimeout);
 
    return Object.freeze({
-      execute: execute(stepExecution, timeInterval, _timeoutHandler)
+      execute() {
+         return new Promise((resolve, reject) => {
+            _timeoutHandler(() => {
+               _stepExecution
+                  .then(executionOutput => _handleExecutionResult(executionOutput, resolve))
+                  .catch(reject);
+            }, _timeInterval);
+         });
+      }
    });
 };
 

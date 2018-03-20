@@ -1,18 +1,21 @@
+import propOrDefault from './../helper/propOrDefault';
 
-const start = (timestep) => function () {
-   return timestep.execute().then(({ shouldContinue, result }) => {
-      if (shouldContinue) {
-         return this.start();
-      }
-      else {
-         return result;
+const create = (properties) => {
+   const _timestep = propOrDefault(properties, "timestep", null);
+
+   return Object.freeze({
+      start() {
+         return _timestep.execute().then(({ shouldContinue, result }) => {
+            if (shouldContinue) {
+               return this.start();
+            }
+            else {
+               return result;
+            }
+         });
       }
    });
 };
-
-const create = ({ timestep }) => Object.freeze({
-   start: start(timestep)
-});
 
 export {
    create
