@@ -11,31 +11,35 @@ import propOrDefault from './../helper/propOrDefault';
 import * as graphQLServicesApi from './services/graphQLServices';
 import * as schemaTemplateApi from './schemaTemplate';
 
-const _buildExecutableSchema = (allGraphQLServices, typeDefinitions) => {
-   const executableSchema = makeExecutableSchema({
-      typeDefs: [typeDefinitions],
-   });
+const create = (properties) => {
+   const _graphQLServices = propOrDefault(properties, "graphQLServices", graphQLServicesApi);
+   const _schemaTemplate = propOrDefault(properties, "schemaTemplate", schemaTemplateApi);
 
-   allGraphQLServices.forEach(graphQLService => {
-      graphQLService.addResolvers(executableSchema);
-   });
+   const _buildExecutableSchema = (allGraphQLServices, typeDefinitions) => {
+      const executableSchema = makeExecutableSchema({
+         typeDefs: [typeDefinitions],
+      });
 
-   return executableSchema;
-};
+      allGraphQLServices.forEach(graphQLService => {
+         graphQLService.addResolvers(executableSchema);
+      });
 
-const build = ({ graphQLServices, schemaTemplate }) => {
-   const _graphQLServices = propOrDefault(graphQLServices, graphQLServicesApi);
-   const _schemaTemplate = propOrDefault(schemaTemplate, schemaTemplateApi);
+      return executableSchema;
+   };
 
-   return new Promise((resolve, reject) => {
-      const allGraphQLServices = _graphQLServices.create();
+   return Object.freeze({
+      build() {
+         return new Promise((resolve, reject) => {
+            const allGraphQLServices = _graphQLServices.create();
 
-      const typeDefinitions = _schemaTemplate.fill(allGraphQLServices);
+            const typeDefinitions = _schemaTemplate.fill(allGraphQLServices);
 
-      resolve(_buildExecutableSchema(allGraphQLServices, typeDefinitions));
+            resolve(_buildExecutableSchema(allGraphQLServices, typeDefinitions));
+         });
+      }
    });
 };
 
 export {
-   build
+   create
 };

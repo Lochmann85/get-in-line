@@ -4,8 +4,10 @@
  * initial entry point for app
  */
 
-import * as server from './serverInitialisation/server';
+import * as serverFactory from './serverInitialisation/server';
 
-server.initialise({})
+const server = serverFactory.create();
+
+server.initialise()
    .then(() => { })
    .catch(error => console.log(error));

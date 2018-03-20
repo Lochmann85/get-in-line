@@ -1,4 +1,4 @@
-import * as server from './server';
+import * as serverFactory from './server';
 
 describe("server initialisation", () => {
 
@@ -6,26 +6,31 @@ describe("server initialisation", () => {
       let buildVisited = false,
          graphQLAppVisited = false;
 
-      server.initialise({
-         schemaBuilder: {
-            build() {
-               buildVisited = true;
-               return Promise.resolve();
-            }
+      const serverInstance = serverFactory.create({
+         schemaBuilderFactory: {
+            create: () => ({
+               build() {
+                  buildVisited = true;
+                  return Promise.resolve();
+               }
+            })
          },
-         graphQLApp: {
-            startGraphQLWebserver() {
-               graphQLAppVisited = true;
-               return Promise.resolve();
-            }
-         },
-      })
-         .then(() => {
-            buildVisited.should.be.true; // eslint-disable-line no-unused-expressions
-            graphQLAppVisited.should.be.true; // eslint-disable-line no-unused-expressions
+         graphQLAppFactory: {
+            create: () => ({
+               startGraphQLWebserver() {
+                  graphQLAppVisited = true;
+                  return Promise.resolve();
+               }
+            })
+         }
+      });
 
-            done();
-         }).catch(done);
+      serverInstance.initialise().then(() => {
+         buildVisited.should.be.true; // eslint-disable-line no-unused-expressions
+         graphQLAppVisited.should.be.true; // eslint-disable-line no-unused-expressions
+
+         done();
+      }).catch(done);
    });
 
 });

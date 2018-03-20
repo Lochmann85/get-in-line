@@ -1,4 +1,4 @@
-import * as schemaBuilder from './schemaBuilder';
+import * as schemaBuilderFactory from './schemaBuilder';
 
 describe("graphQL schema building", () => {
 
@@ -15,7 +15,11 @@ describe("graphQL schema building", () => {
          }
       };
 
-      schemaBuilder.build({ graphQLServices: mockedGraphQLServices }).then(executableSchema => {
+      const schemaBuilder = schemaBuilderFactory.create({
+         graphQLServices: mockedGraphQLServices
+      });
+
+      schemaBuilder.build().then(executableSchema => {
 
          executableSchema.should.include.keys([
             "_directives",
@@ -44,9 +48,13 @@ describe("graphQL schema building", () => {
          },
          mockedSchemaTemplate = { fill: () => `type Query {test:String}` };
 
-      schemaBuilder.build({
+      const schemaBuilder = schemaBuilderFactory.create({
          graphQLServices: mockedGraphQLServices,
          schemaTemplate: mockedSchemaTemplate
+      });
+
+      schemaBuilder.build({
+         graphQLServices: mockedGraphQLServices,
       }).then(executableSchema => {
          counter.should.equal(3);
          done();

@@ -8,8 +8,8 @@ import dotenv from 'dotenv';
 
 import propOrDefault from './helper/propOrDefault';
 
-const create = ({ processApi }) => {
-   const _processApi = propOrDefault(processApi, process);
+const create = (properties) => {
+   const _processApi = propOrDefault(properties, "processApi", process);
 
    dotenv.config({ silent: true });
 

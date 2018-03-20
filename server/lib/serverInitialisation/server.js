@@ -6,19 +6,26 @@
  */
 import propOrDefault from './../helper/propOrDefault';
 
-import * as schemaBuilderApi from './../graphQLApi/schemaBuilder';
-import * as graphQLAppApi from './graphQLApp';
+import * as schemaBuilderFactory from './../graphQLApi/schemaBuilder';
+import * as graphQLAppFactory from './graphQLApp';
 
-const initialise = ({ schemaBuilder, graphQLApp }) => {
-   const _schemaBuilder = propOrDefault(schemaBuilder, schemaBuilderApi);
-   const _graphQLApp = propOrDefault(graphQLApp, graphQLAppApi);
+const create = (properties) => {
+   const _schemaBuilderFactory = propOrDefault(properties, "schemaBuilderFactory", schemaBuilderFactory);
+   const _graphQLAppFactory = propOrDefault(properties, "graphQLAppFactory", graphQLAppFactory);
 
-   return _schemaBuilder.build({})
-      .then(executableSchema => {
-         return _graphQLApp.startGraphQLWebserver(executableSchema);
-      });
+   const _schemaBuilder = _schemaBuilderFactory.create();
+   const _graphQLApp = _graphQLAppFactory.create();
+
+   return Object.freeze({
+      initialise() {
+         return _schemaBuilder.build({})
+            .then(executableSchema => {
+               return _graphQLApp.startGraphQLWebserver(executableSchema);
+            });
+      }
+   });
 };
 
 export {
-   initialise
+   create
 };

@@ -4,24 +4,32 @@
  * starts the graphql webserver
  */
 import { config } from './../config';
+import propOrDefault from './../helper/propOrDefault';
 
-import * as httpGraphQLApi from './../graphQLApi/httpGraphQL';
-import * as wsGraphQLApi from './../graphQLApi/wsGraphQL';
+import * as httpGraphQLFactory from './../graphQLApi/httpGraphQL';
+import * as wsGraphQLFactory from './../graphQLApi/wsGraphQL';
 
-const startGraphQLWebserver = (executableSchema) => {
-   return httpGraphQLApi.initialiseGraphQLRouting(executableSchema)
-      .then(graphQLApp => {
-         return wsGraphQLApi.initialiseGraphQlSubscription(executableSchema, graphQLApp);
-      })
-      .then(webServer => {
-         webServer.listen(config.SERVER_PORT, () => {
-            console.log(`Webserver running`); // eslint-disable-line no-console
+const create = (properties) => {
+   const _httpGraphQLFactory = propOrDefault(properties, "httpGraphQLFactory", httpGraphQLFactory);
+   const _wsGraphQLFactory = propOrDefault(properties, "wsGraphQLFactory", wsGraphQLFactory);
 
-            return Promise.resolve();
-         });
-      });
+   return Object.freeze({
+      startGraphQLWebserver(executableSchema) {
+         return _httpGraphQLFactory.initialiseGraphQLRouting(executableSchema)
+            .then(graphQLApp => {
+               return _wsGraphQLFactory.initialiseGraphQlSubscription(executableSchema, graphQLApp);
+            })
+            .then(webServer => {
+               webServer.listen(config.SERVER_PORT, () => {
+                  console.log(`Webserver running`); // eslint-disable-line no-console
+
+                  return Promise.resolve();
+               });
+            });
+      }
+   });
 };
 
 export {
-   startGraphQLWebserver
+   create
 };
